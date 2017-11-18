@@ -8,15 +8,22 @@ bot = commands.Bot(command_prefix="!", self_bot=True, description="e")
 
 @bot.command(pass_context=True)
 async def ping(ctx):
-    """Pong! Check your response time."""
-    msgtime = ctx.message.timestamp.now()
-    await (await bot.ws.ping())
-    now = datetime.datetime.now()
-    ping = now - msgtime
-    pong = discord.Embed(title='Pong! Response Time:',
-    					 description=str(ping.microseconds / 1000.0) + ' ms',
-                         color=0x00ffff)
-    await bot.say(embed=pong)
+    await bot.say("Pong")
+    
+@bot.command(name='presence')
+async def _set(Type,*,message=None):
+    """Change your discord game/stream!"""
+    if Type.lower() == 'stream':
+        await bot.change_presence(game=discord.Game(name=message,type=1,url=f'https://www.twitch.tv/{message}'),status='online')
+        await bot.say(f'Set presence to. `Streaming {message}`')
+    elif Type.lower() == 'game':
+        await bot.change_presence(game=discord.Game(name=message))
+        await bot.say(f'Set presence to `Playing {message}`')
+    elif Type.lower() == 'clear':
+        await bot.change_presence(game=None)
+        await bot.say('Cleared Presence')
+    else:
+        await bot.say('Usage: `.presence [game/stream/clear] [message]`')
     
 try:
     bot.run(TOKEN.strip('\"'), bot=False)
