@@ -4,7 +4,7 @@ import os
 
 TOKEN = os.environ['TOKEN']
 
-bot = commands.Bot(command_prefix=!, self_bot=True, description="e")
+bot = commands.Bot(command_prefix="!", self_bot=True, description="e")
 
 @bot.command(pass_context=True)
 async def ping(ctx):
